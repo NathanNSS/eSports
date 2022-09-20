@@ -38,7 +38,7 @@ export function Home() {
             throw res;
          })
          .then((data) => setGames(data))
-         .catch((err) => { console.log(err), Alert.alert("Volte mais Tarde", "Não foi possivel carregar os dados :(") });
+         .catch((err) =>  Alert.alert("Volte mais Tarde", "Não foi possivel carregar os dados :(") );
 
    }, [])
 

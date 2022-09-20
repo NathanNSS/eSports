@@ -14,6 +14,7 @@ import { Entypo } from '@expo/vector-icons'
 import { Background } from '../../components/Background';
 import { DuoCard, InterfaceDuoCard } from '../../components/DuoCard';
 import { Heading } from '../../components/Heading';
+import { DuoMatch } from '../../components/DuoMatch';
 
 import { styles } from './stylesGame';
 import { THEME } from '../../theme';
@@ -26,7 +27,28 @@ export function Game() {
 
     const route = useRoute()
     const game = route.params as InterfaceGameParams
+
     const [duos, setDuos] = useState<InterfaceDuoCard[]>([])
+    const [discordDuoSelected, setDiscordDuoSelected] = useState<string>('')
+
+    async function getDiscordUser(adsId: string) {
+        api({
+            route: `/ads/${adsId}/discord`,
+            header: {
+                method: "GET",
+                headers: { "Content-type": "application/json; charset=UTF-8" },
+                mode: "cors",
+            },
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw res;
+            })
+            .then((data) => setDiscordDuoSelected(data.discord))
+            .catch((err) =>  Alert.alert("Volte mais Tarde", "Não foi possivel carregar os dados :(") );
+    }
 
     useEffect(() => {
         api({
@@ -44,7 +66,7 @@ export function Game() {
                 throw res;
             })
             .then((data) => setDuos(data))
-            .catch((err) => { console.log(err), Alert.alert("Volte mais Tarde", "Não foi possivel carregar os dados :(") });
+            .catch((err) =>   Alert.alert("Volte mais Tarde", "Não foi possivel carregar os dados :(") );
 
     }, [])
     return (
@@ -80,16 +102,20 @@ export function Game() {
                     horizontal={true}
                     style={styles.containerList}
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={[duos.length > 0 ? styles.contentList :  styles.emptyListContent]}
+                    contentContainerStyle={[duos.length > 0 ? styles.contentList : styles.emptyListContent]}
                     ListEmptyComponent={() => (
                         <Text style={styles.emptyListText}>Não há anucios publicados para essa jogo </Text>
                     )}
                     renderItem={({ item }) => (
 
-                        <DuoCard data={item}  onConnect={()=>{}}/>
+                        <DuoCard data={item} onConnect={() => getDiscordUser(item.id)} />
                     )}
                 />
-         
+                <DuoMatch
+                    discord={discordDuoSelected}
+                    visible={discordDuoSelected.length > 0}
+                    onClose={() => setDiscordDuoSelected('')}
+                />
             </SafeAreaView>
         </Background>
     );

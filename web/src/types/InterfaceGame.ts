@@ -1,5 +1,5 @@
 export interface InterfaceGame {
-    id: string;
+    id?: string;
     title: string;
     bannerUrl: string;
     ads: number;
