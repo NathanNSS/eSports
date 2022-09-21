@@ -9,12 +9,12 @@
     <img alt="Imagem web" title="Prato" src="../AppShowcase/mobile/screenshot_NLW_eSports_modal_ad.jpg" width="20%"></img>
 </p> -->
 
-<center>
+<div align="center"> 
 
   |                                      Android                                       |                                      IOS                                      |
   | :--------------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
   | <img src = "../AppShowcase/mobile/gif_NLW_eSports_Android.gif" width="100%"></img> | <img src = "../AppShowcase/mobile/gif_NLW_eSports_IOS.gif" width="92%"></img> |
-</center>
+</div>
 
 <br>
 
